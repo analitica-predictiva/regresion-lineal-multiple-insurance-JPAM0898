@@ -82,14 +82,14 @@ def pregunta_03():
         (
             "column_transformer",
             make_column_transformer(
-                (OneHotEncoder(), ['sex', 'children', 'smoker', 'region']),
-                remainder="passthrough", 
+                (OneHotEncoder(), make_column_selector(dtype_include=object)),
+                remainder="passthrough",
             ),
         ),
         # Paso 2: Construye un selector de características que seleccione las K características más importantes. Utilice la función f_regression.
         (
             "feature_selector",
-            SelectKBest(score_func=f_regression, k=5),  
+            SelectKBest(score_func=f_regression),  
         ),
         # Paso 3: Construye un modelo de regresión lineal.
         ("regressor", LinearRegression()),
